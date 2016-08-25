@@ -177,7 +177,7 @@
     {
       "name": "Clay",
       "color": 15066338,
-      "ingredient": "minecraft:clay_ball",
+      "ingredient": "itemClay",
       "dropMin": 3,
       "dropMax": 8,
       "growthTime": 1200,
