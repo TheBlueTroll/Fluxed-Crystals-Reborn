@@ -235,7 +235,10 @@ public class BlockCrystal extends CrystalBase implements ITileEntityProvider, IW
 		Seed seed = SeedRegistry.getInstance().getSeedByID(crop.getIndex());
 		dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.seed, seed.seedReturn, seed.seedID));
 		if (world.getBlockMetadata(x, y, z) >= 7) {
-			ItemStack stack = player.getCurrentEquippedItem();
+			ItemStack stack=null;
+			if (player!=null){
+			stack = player.getCurrentEquippedItem();
+			}
 			if (stack != null && stack.getItem() instanceof ItemScythe) {
 				if (stack.getItem() == FCItems.scytheWood) {
 					if (world.rand.nextInt(4) == 0) {
