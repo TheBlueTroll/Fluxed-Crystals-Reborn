@@ -1,4 +1,7 @@
 #Change Log
+##1.0.11:
+-Fixed Special Users bug.
+-Updated the default MasterSeed.json to use the correct ItemClay.
 ##1.0.10:
 - Added a buch of config options
 - fixed bug where the gem infusor/gem cutter can hang when a speed upgrade is added (again)
