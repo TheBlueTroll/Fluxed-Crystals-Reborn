@@ -37,7 +37,7 @@ public class TileEntitySeedInfuser extends TileEntity implements IInventory
 		return infusing;
 	}
 	private void DebugLogging(String string){
-		if(fluxedCrystals.handler.ConfigurationHandler.oreDictRecipieDebug){
+		if(fluxedCrystals.handler.ConfigurationHandler.bDebugFlag){
 			LogHelper.warn(string);
 		}
 	}

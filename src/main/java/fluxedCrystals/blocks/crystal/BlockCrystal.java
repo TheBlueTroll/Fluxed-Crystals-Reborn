@@ -231,6 +231,7 @@ public class BlockCrystal extends CrystalBase implements ITileEntityProvider, IW
 
 	@Override
 	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player) {
+
 		TileEntityCrystal crop = (TileEntityCrystal) world.getTileEntity(x, y, z);
 		Seed seed = SeedRegistry.getInstance().getSeedByID(crop.getIndex());
 		dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.seed, seed.seedReturn, seed.seedID));

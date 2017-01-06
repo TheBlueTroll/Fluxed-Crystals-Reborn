@@ -22,14 +22,14 @@ public class ConfigurationHandler
 	public static int soilEnergyStored;
 	public static boolean seedRegistryAutosave;
 	public static boolean specialPlayerChangeChatColour;
-	public static boolean oreDictRecipieDebug;
+	public static boolean bDebugFlag;
 	public static Property oreDictBlacklist;
 
 	private static String addonCategory = "Addon Compatability";
 	private static String generalCategory = "General";
 	private static String oreDictCategory = "Ore Dictionary ";
 	private static String debugCategory ="Debug";
-	// if your reading this jared, next time make it central, not spread all round, it fucking helps
+	// if your reading this jared, next time make it central, not spread all round.
 	public static String[] specialPlayers={"TheBlueTroll","Jaredlll08","Namroc_Smith"};
 	
 	
@@ -65,7 +65,7 @@ public class ConfigurationHandler
 		//oredict shit
 		oreDictBlacklist = CONFIGURATION.get(oreDictCategory, "OreDict Lookup blacklist", blank,"a string array of oredict's that the infuser ignores");
 		//Glorious Debug Code of The Flying Spaghetti Monster
-		oreDictRecipieDebug = CONFIGURATION.get(debugCategory,"OreDictRecipieDebug",false,"Trace Oredict Calls in the infusor").getBoolean(false);
+		bDebugFlag = CONFIGURATION.get(debugCategory,"OreDictRecipieDebug",false,"Trace Oredict Calls in the infusor").getBoolean(false);
 		if (CONFIGURATION.hasChanged()) {
 
 			CONFIGURATION.save();
@@ -85,16 +85,18 @@ public class ConfigurationHandler
 
 	}
 
-	public static boolean isPlayerSpecial(String player)
-	//retrieve the string array from the config handler, and ieterate thru it comparing player name with stored, setting true if is
-	{	boolean flag=false;
-		for (int i=0;i<specialPlayers.length;i++){
-			if (specialPlayers[i].equalsIgnoreCase(player)){
-				flag=true;continue;//if we are true lets leave the loop now, we dont care about the rest
-			}
-		}
-		return flag;
-	
-	}
+    public static boolean isPlayerSpecial(String player)
+    //retrieve the string array from the config handler, and ieterate thru it comparing player name with stored, setting true if is
+    {	boolean flag=false;
+        if (ConfigurationHandler.bDebugFlag){
+            for (int i=0;i<specialPlayers.length;i++){
+                if (specialPlayers[i].equalsIgnoreCase(player)){
+                    flag=true;continue;//if we are true lets leave the loop now, we dont care about the rest
+                }
+            }
+        }
+        return flag;
+
+    }
 
 }
