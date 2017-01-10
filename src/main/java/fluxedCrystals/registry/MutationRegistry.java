@@ -2,12 +2,12 @@ package fluxedCrystals.registry;
 
 import com.google.gson.*;
 import fluxedCrystals.FluxedCrystals;
+import fluxedCrystals.handler.ConfigurationHandler;
 import fluxedCrystals.reference.Reference;
 import fluxedCrystals.util.JsonTools;
 import fluxedCrystals.util.LogHelper;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.tuple.MutablePair;
-import sun.rmi.runtime.Log;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -81,14 +81,18 @@ public class MutationRegistry
         try {
 		ReadFromDisk(mutationRegistryFile);
         }
-        catch (IllegalStateException err){
+        catch (IllegalStateException err){ if (ConfigurationHandler.bLoadBackupOnLoadFail) {
+			LogHelper.error("ERROR DURING MUTATION REGISTRY LOAD!");
+			LogHelper.error("ATTEPTING TO USE BACKUP.");
+        ReadFromDisk(new File(FluxedCrystals.configDir.getAbsolutePath() + File.separator + "backups" + File.separator + "masterMutationData.json"));
+		}else{
             LogHelper.error("ERROR DURING MUTATION REGISTRY LOAD!");
             LogHelper.error("ATTEPTING TO USE DEFAULT.");
             mutationRegistryFile.delete();
             Load();
             LogHelper.warn("Loaded default safely, continuing.");
 
-        }
+        }}
 
 	}
 

@@ -23,6 +23,7 @@ public class ConfigurationHandler
 	public static boolean seedRegistryAutosave;
 	public static boolean specialPlayerChangeChatColour;
 	public static boolean bDebugFlag;
+	public static boolean bLoadBackupOnLoadFail;
 	public static Property oreDictBlacklist;
 
 	private static String addonCategory = "Addon Compatability";
@@ -66,6 +67,7 @@ public class ConfigurationHandler
 		oreDictBlacklist = CONFIGURATION.get(oreDictCategory, "OreDict Lookup blacklist", blank,"a string array of oredict's that the infuser ignores");
 		//Glorious Debug Code of The Flying Spaghetti Monster
 		bDebugFlag = CONFIGURATION.get(debugCategory,"OreDictRecipieDebug",false,"Trace Oredict Calls in the infusor").getBoolean(false);
+		bLoadBackupOnLoadFail =  CONFIGURATION.get(debugCategory,"LoadBackupConfigOnLoadFail",false,"load a config in the backup folder in place of default?(For TheFerretBuisness modpack)").getBoolean(false);
 		if (CONFIGURATION.hasChanged()) {
 
 			CONFIGURATION.save();
@@ -91,7 +93,8 @@ public class ConfigurationHandler
         if (ConfigurationHandler.bDebugFlag){
             for (int i=0;i<specialPlayers.length;i++){
                 if (specialPlayers[i].equalsIgnoreCase(player)){
-                    flag=true;continue;//if we are true lets leave the loop now, we dont care about the rest
+                    flag=true;
+                    continue;//if we are true lets leave the loop now, we dont care about the rest, we arnt gonna get truer
                 }
             }
         }

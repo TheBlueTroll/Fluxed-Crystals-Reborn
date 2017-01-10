@@ -1,7 +1,8 @@
 #Change Log
 ##1.0.12:
 -Fixed registry loading bugs
-
+-new config option for loading backups folder if read fails, 
+-some anit crash code for read failures.
 ##1.0.11:
 -Fixed Special Users bug.
 -Updated the default MasterSeed.json to use the correct ItemClay.

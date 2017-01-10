@@ -2,6 +2,7 @@ package fluxedCrystals.registry;
 
 import com.google.gson.*;
 import fluxedCrystals.FluxedCrystals;
+import fluxedCrystals.handler.ConfigurationHandler;
 import fluxedCrystals.init.FCItems;
 import fluxedCrystals.recipe.*;
 import fluxedCrystals.reference.Reference;
@@ -288,14 +289,18 @@ public class SeedRegistry
         try {
             ReadFromDisk(seedRegistryFile);
         }
-        catch (IllegalStateException err){
+        catch (IllegalStateException err){if (ConfigurationHandler.bLoadBackupOnLoadFail) {
+			LogHelper.error("ERROR DURING MUTATION REGISTRY LOAD!");
+			LogHelper.error("ATTEPTING TO USE BACKUP.");
+			ReadFromDisk(new File(FluxedCrystals.configDir.getAbsolutePath() + File.separator + "backups" + File.separator + "masterMutationData.json"));
+		}else{
             LogHelper.error("ERROR DURING MUTATION REGISTRY LOAD!");
             LogHelper.error("ATTEPTING TO USE DEFAULT.");
             seedRegistryFile.delete();
             Load();
             LogHelper.warn("Loaded default safely, continuing.");
 
-        }
+        }}
 
 	}
 
