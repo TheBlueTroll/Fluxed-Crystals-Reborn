@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -284,8 +285,17 @@ public class SeedRegistry
 			}
 
 		}
+        try {
+            ReadFromDisk(seedRegistryFile);
+        }
+        catch (IllegalStateException err){
+            LogHelper.error("ERROR DURING MUTATION REGISTRY LOAD!");
+            LogHelper.error("ATTEPTING TO USE DEFAULT.");
+            seedRegistryFile.delete();
+            Load();
+            LogHelper.warn("Loaded default safely, continuing.");
 
-		ReadFromDisk(seedRegistryFile);
+        }
 
 	}
 
@@ -298,8 +308,10 @@ public class SeedRegistry
 				// Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 				JsonParser parser = new JsonParser();
+				InputStream is = new FileInputStream(fileToRead);
+				Reader r = new InputStreamReader(is, Charset.forName("UTF-8"));
 
-				JsonObject jsonObject = parser.parse(new FileReader(fileToRead)).getAsJsonObject();
+				JsonObject jsonObject = parser.parse(r).getAsJsonObject();
 
 				for (Seed seed : JsonTools.jsontoList_seeds(jsonObject)) {
 

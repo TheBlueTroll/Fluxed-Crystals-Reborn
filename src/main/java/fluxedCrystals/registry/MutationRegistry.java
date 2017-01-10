@@ -4,10 +4,13 @@ import com.google.gson.*;
 import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.reference.Reference;
 import fluxedCrystals.util.JsonTools;
+import fluxedCrystals.util.LogHelper;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.tuple.MutablePair;
+import sun.rmi.runtime.Log;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,45 +78,64 @@ public class MutationRegistry
 			}
 
 		}
-
+        try {
 		ReadFromDisk(mutationRegistryFile);
+        }
+        catch (IllegalStateException err){
+            LogHelper.error("ERROR DURING MUTATION REGISTRY LOAD!");
+            LogHelper.error("ATTEPTING TO USE DEFAULT.");
+            mutationRegistryFile.delete();
+            Load();
+            LogHelper.warn("Loaded default safely, continuing.");
+
+        }
 
 	}
 
-	private void ReadFromDisk (File fileToRead) {
+    private void ReadFromDisk (File fileToRead) {
 
-		if (fileToRead != null && fileToRead.exists()) {
+        if (fileToRead != null && fileToRead.exists()) {
 
-			try {
+            try {
 
-				Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-				JsonParser parser = new JsonParser();
+                JsonParser parser = new JsonParser();
 
-				JsonObject jsonObject = parser.parse(new FileReader(fileToRead)).getAsJsonObject();
+                InputStream is = new FileInputStream(fileToRead);
+                Reader r = new InputStreamReader(is, Charset.forName("UTF-8"));
 
-				for (Mutation mutation : JsonTools.jsontoList_mutations(jsonObject)) {
 
-					addMutation(mutation.outputSeed, mutation.seed1, mutation.seed2);
+                JsonObject jsonObject = parser.parse(r).getAsJsonObject();
+                for (Mutation mutation : JsonTools.jsontoList_mutations(jsonObject)) {
 
-				}
+                    addMutation(mutation.outputSeed, mutation.seed1, mutation.seed2);
 
-			}
-			catch (FileNotFoundException ignored) {
+                }
 
-				// NOOP
 
-			}
-			catch (IOException e) {
 
-				e.printStackTrace();
 
-			}
 
-		}
+            }
+            catch (FileNotFoundException ignored) {
+
+                // NOOP
+
+            }
+            catch (IOException e) {
+
+                e.printStackTrace();
+
+            }
+
+        }
+
+    }
+	public void Save () {
 
 	}
-
+/*
 	public void Save () {
 
 		Writer writer = null;
@@ -152,6 +174,7 @@ public class MutationRegistry
 		file1.renameTo(file2);
 
 	}
+*/
 
 	public Map<MutablePair<Seed, Seed>, Mutation> getMutationMap () {
 
