@@ -18,3 +18,9 @@ Fluxed Crystal 2 1.0.7b-FerretEdition:
 	https://www.dropbox.com/s/29xonez6ohf477q/Fluxed-Crystals2-1.0.7b-FerretEdition.jar?dl=0	
 Fluxed Crystal 2 1.0.7-FerretEdition
 	https://www.dropbox.com/s/8i3uc3byer8sk7j/Fluxed-Crystals2-1.0.7-FerretEdition.jar?dl=0
+
+	
+	Dependencies:
+	CodeChickenCore-1.7.10-1.0.7.47
+	CodeChickenLib-1.7.10-1.1.3.140 
+	CoFHLib-[1.7.10]1.0.2-160
